@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Articulos</title>
+</head>
+<body>
+    
+    <main>
+        <A href="index.html">Home</A>
+        <label>Nombre:</label>
+        <input type="text" id="name-input">
+        <button id="add-name-btn">Agregar</button>
+
+        <br><br><br>
+        <div>
+           <input placeholder="Buscar por nombre" id="search-input">
+           <button id="search-btn">Buscar por Nombre</button>
+        </div>
+
+        <table id="table">
+            <thead>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha creado</th>
+                <th>Borrar</th>
+                <th>Editar</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <section hidden id="update-row">
+            <label>Nombre:</label>
+            <input type="text" id="update-name-input">
+            <button id="update-row-btn">Editar</button>
+        </section>
+    </main>
+    <script src="articulos.js"></script>
+</body>
+</html>
