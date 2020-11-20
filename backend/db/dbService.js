@@ -1,17 +1,10 @@
 const mysql = require('mysql');
-const dotenv = require('dotenv');
+
 let instance = null;
-dotenv.config();
 
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    port: process.env.DB_PORT
-});
+const  mysqlConnection = require('../db/db');
 
-connection.connect((err) => {
+mysqlConnection.connect((err) => {
     if (err) {
         console.log(err.message);
     }
@@ -23,12 +16,12 @@ class DbService {
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
-
+    // async -away
     async getAllData() {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM names;";
-                connection.query(query, (err, results) => {
+                mysqlConnection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })
@@ -47,7 +40,7 @@ class DbService {
             const insertId = await new Promise((resolve, reject) => {
                 const query = "INSERT INTO names (name, date_added) VALUES (?,?);";
 
-                connection.query(query, [name, dateAdded] , (err, result) => {
+                mysqlConnection.query(query, [name, dateAdded] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.insertId);
                 })
@@ -68,7 +61,7 @@ class DbService {
             const response = await new Promise((resolve, reject) => {
                 const query = "DELETE FROM names WHERE id = ?";
     
-                connection.query(query, [id] , (err, result) => {
+                mysqlConnection.query(query, [id] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })
@@ -87,7 +80,7 @@ class DbService {
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE names SET name = ? WHERE id = ?";
     
-                connection.query(query, [name, id] , (err, result) => {
+                mysqlConnection.query(query, [name, id] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })
@@ -105,7 +98,7 @@ class DbService {
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM names WHERE name = ?;";
 
-                connection.query(query, [name], (err, results) => {
+                mysqlConnection.query(query, [name], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })

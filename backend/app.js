@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const dotenv = require('dotenv');
-dotenv.config();
+//const dotenv = require('dotenv');
+//dotenv.config();
 
 const dbService = require('../backend/db/dbService');
 const dbArticulo = require('../backend/db/dbArticulo'); // import dbArticulo
@@ -34,7 +34,7 @@ app.get('/getAll', (request, response) => {
     .then(data => response.json({data : data}))
     .catch(err => console.log(err));
 })
-// articulos
+// articulos NUEVO
 app.get('/getTodos', (request, response) => {
     const db = dbArticulo.getDbServiceInstance();
 
