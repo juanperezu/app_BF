@@ -1,26 +1,17 @@
 const mysql = require('mysql');
 
 let instance = null;
-
 const  mysqlConnection = require('../db/db');
 
-mysqlConnection.connect((err) => {
-    if (err) {
-        console.log(err.message);
-    }
-   console.log('db ' + mysqlConnection.state);
-});
-
-
-class DbArticulo {
+class Service {
     static getDbServiceInstance() {
-        return instance ? instance : new DbArticulo();
+        return instance ? instance : new Service();
     }
-
+    // async -away
     async getAllData() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM articulos;";
+                const query = "SELECT * FROM names;";
                 mysqlConnection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
@@ -34,23 +25,21 @@ class DbArticulo {
     }
 
 
-    async insertNewName(descripcion,precio) {
+    async insertNewName(name) {
         try {
-            //const dateAdded = new Date();
+            const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO articulos (descripcion, precio) VALUES (?,?);";
+                const query = "INSERT INTO names (name, date_added) VALUES (?,?);";
 
-                mysqlConnection.query(query, [descripcion,precio] , (err, result) => {
+                mysqlConnection.query(query, [name, dateAdded] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.insertId);
                 })
             });
             return {
                 id : insertId,
-               descripcion : descripcion,
-               precio:precio
-            
-               
+                name : name,
+                dateAdded : dateAdded
             };
         } catch (error) {
             console.log(error);
@@ -61,7 +50,7 @@ class DbArticulo {
         try {
             id = parseInt(id, 10); 
             const response = await new Promise((resolve, reject) => {
-                const query = "DELETE FROM articulos WHERE codigo = ?";
+                const query = "DELETE FROM names WHERE id = ?";
     
                 mysqlConnection.query(query, [id] , (err, result) => {
                     if (err) reject(new Error(err.message));
@@ -76,13 +65,13 @@ class DbArticulo {
         }
     }
 
-    async updateNameById(id, descripcion,precio) {
+    async updateNameById(id, name) {
         try {
             id = parseInt(id, 10); 
             const response = await new Promise((resolve, reject) => {
-                const query = "UPDATE articulos SET descripcion = ?,precio=? WHERE codigo = ?";
+                const query = "UPDATE names SET name = ? WHERE id = ?";
     
-                mysqlConnection.query(query, [descripcion,precio, id] , (err, result) => {
+                mysqlConnection.query(query, [name, id] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })
@@ -95,12 +84,12 @@ class DbArticulo {
         }
     }
 
-    async searchByName(descripcion) {
+    async searchByName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM articulos WHERE descripcion = ?;";
+                const query = "SELECT * FROM names WHERE name = ?;";
 
-                mysqlConnection.query(query, [descripcion], (err, results) => {
+                mysqlConnection.query(query, [name], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })
@@ -113,4 +102,4 @@ class DbArticulo {
     }
 }
 
-module.exports = DbArticulo;
+module.exports = Service;

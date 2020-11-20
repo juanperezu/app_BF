@@ -4,8 +4,8 @@ const cors = require('cors');
 //const dotenv = require('dotenv');
 //dotenv.config();
 
-const dbService = require('../backend/db/dbService');
-const dbArticulo = require('../backend/db/dbArticulo'); // import dbArticulo
+const dbService = require('./routes/Service');
+const dbArticulo = require('./routes/Articulo'); // import dbArticulo
 
 app.use(cors());
 app.use(express.json());
