@@ -9,7 +9,7 @@ class Articulo {
     static getDbServiceInstance() {
         return instance ? instance : new Articulo();
     }
-
+    // Traer todos
     async getAllData() {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ class Articulo {
         }
     }
 
-
+  // INsertar un nuevo
     async insertNewName(descripcion,precio) {
         try {
             //const dateAdded = new Date();
