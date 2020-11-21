@@ -44,6 +44,18 @@ app.get('/getTodos', (request, response) => {
     .then(data => response.json({data : data}))
     .catch(err => console.log(err));
 })
+// Nuevo articulo
+app.post('/nuevo-articulo', (request, response) => {
+    const { precio } = request.body;
+    const { descripcion } = request.body;
+    const db =dbArticulo.getDbServiceInstance();
+    
+    const result = db.insertNewArticulo(descripcion,precio);
+
+    result
+    .then(data => response.json({ data: data}))
+    .catch(err => console.log(err));
+});
 
 
 // update

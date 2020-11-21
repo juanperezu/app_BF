@@ -37,17 +37,19 @@ function deleteRowById(id) {
     });
 }
 
-function handleEditRow(id) {
+function handleEditRow(id,precio) {
     const updateSection = document.querySelector('#update-row');
     updateSection.hidden = false;
     document.querySelector('#update-name-input').dataset.id = id;
+    document.querySelector('#update-precio-input').dataset.precio =precio;
 }
 
 updateBtn.onclick = function() {
     const updateNameInput = document.querySelector('#update-name-input');
+    const updatePrecioInput = document.querySelector('#update-precio-input');
 
 
-    console.log(updateNameInput);
+    console.log(updateNameInput,updatePrecioInput);
 
     fetch('http://localhost:5000/update', {
         method: 'PATCH',
@@ -56,7 +58,8 @@ updateBtn.onclick = function() {
         },
         body: JSON.stringify({
             id: updateNameInput.dataset.id,
-            name: updateNameInput.value
+            name: updateNameInput.value,
+            precio: updatePrecioInput.value
         })
     })
     .then(response => response.json())
@@ -72,15 +75,18 @@ const addBtn = document.querySelector('#add-name-btn');
 
 addBtn.onclick = function () {
     const nameInput = document.querySelector('#name-input');
+    const precioInput = document.querySelector('#precio-input');
     const descripcion = nameInput.value;
+    const precio =precioInput.value;
     nameInput.value = "";
+    precioInput.value ="";
 
-    fetch('http://localhost:5000/insert', {
+    fetch('http://localhost:5000/nuevo-articulo', {
         headers: {
             'Content-type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({ descripcion : descripcion})
+        body: JSON.stringify({ descripcion : descripcion,precio:precio})
     })
     .then(response => response.json())
     .then(data => insertRowIntoTable(data['data']));

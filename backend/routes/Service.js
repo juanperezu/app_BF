@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-
 let instance = null;
 const  mysqlConnection = require('../db/db');
 
