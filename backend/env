@@ -1,0 +1,6 @@
+PORT=5000
+HOST=bprbeudfwg7eeipqbp9t-mysql.services.clever-cloud.com
+USER=urappmxol0gahuzf
+PASSWORD=piXeRzrY5CoTJ351xaU4
+DATABASE =bprbeudfwg7eeipqbp9t
+DB_PORT=3306
