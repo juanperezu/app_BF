@@ -10,7 +10,8 @@ document.querySelector('table tbody').addEventListener('click', function(event) 
         deleteRowById(event.target.dataset.id);
     }
     if (event.target.className === "edit-row-btn") {
-        handleEditRow(event.target.dataset.id);
+        handleEditRow(event.target.dataset.id);// OJO
+        console.log("handleEdit "+ dataset.id.value)
     }
 });
 
@@ -20,7 +21,7 @@ const searchBtn = document.querySelector('#search-btn');
 searchBtn.onclick = function() {
     const searchValue = document.querySelector('#search-input').value;
 
-    fetch('http://localhost:5000/search/' + searchValue)
+    fetch('http://localhost:5000/buscar/' + searchValue)
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 }
@@ -36,12 +37,21 @@ function deleteRowById(id) {
         }
     });
 }
+/*
 
-function handleEditRow(id,precio) {
-    const updateSection = document.querySelector('#update-row');
+ const updateSection = document.querySelector('#update-row');
     updateSection.hidden = false;
     document.querySelector('#update-name-input').dataset.id = id;
-    document.querySelector('#update-precio-input').dataset.precio =precio;
+*/ 
+
+
+function handleEditRow(id) {
+    const updateSection = document.querySelector('#update-row');
+    updateSection.hidden = false;
+   // document.querySelector('#update-name-input').dataset.description = descripcion;
+  //  document.querySelector('#update-precio-input').dataset.precio =precio;
+    document.querySelector('#update-name-input').dataset.id = id;
+    console.log("id "+ id)
 }
 
 updateBtn.onclick = function() {
@@ -49,17 +59,18 @@ updateBtn.onclick = function() {
     const updatePrecioInput = document.querySelector('#update-precio-input');
 
 
-    console.log(updateNameInput,updatePrecioInput);
+    console.log("updateNameInput " +updateNameInput+   " PRECIO"+   updatePrecioInput);
 
-    fetch('http://localhost:5000/update', {
+    fetch('http://localhost:5000/actualizar_articulo', {
         method: 'PATCH',
         headers: {
             'Content-type' : 'application/json'
         },
         body: JSON.stringify({
-            id: updateNameInput.dataset.id,
-            name: updateNameInput.value,
+           codigo: updateNameInput.dataset.id,
+            descripcion: updateNameInput.value,
             precio: updatePrecioInput.value
+            
         })
     })
     .then(response => response.json())
@@ -68,6 +79,7 @@ updateBtn.onclick = function() {
             location.reload();
         }
     })
+
 }
 
 
@@ -109,7 +121,7 @@ function insertRowIntoTable(data) {
     }
 
     tableHtml += `<td><button class="delete-row-btn" data-id=${data.codigo}>Borrar</td>`;
-    tableHtml += `<td><button class="edit-row-btn" data-id=${data.codigo}>Editar</td>`;
+    tableHtml += `<td><button class="edit-row-btn" data-id=${data.codigo}>Editar${data.codigo}</td>`;
 
     tableHtml += "</tr>";
 
@@ -138,8 +150,9 @@ function loadHTMLTable(data) {
         tableHtml += `<td>${precio}</td>`;
         tableHtml += `<td>${new Date(fecha_ingreso).toLocaleString()}</td>`;
         tableHtml += `<td><button class="delete-row-btn" data-id=${codigo}>Borrar</td>`;
-        tableHtml += `<td><button class="edit-row-btn" data-id=${codigo}>Editar</td>`;
+        tableHtml += `<td><button class="edit-row-btn" data-id=${codigo}>Editar ${codigo}</td>`;
         tableHtml += "</tr>";
+        
     });
 
     table.innerHTML = tableHtml;

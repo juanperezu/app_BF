@@ -57,7 +57,19 @@ app.post('/nuevo-articulo', (request, response) => {
     .catch(err => console.log(err));
 });
 
+// Actualizar producto
+app.patch('/actualizar_articulo', (request, response) => {
+    const { codigo, descripcion, precio } = request.body;
 
+    console.log('recibiendo codigo:  '+codigo)
+    const db = dbArticulo.getDbServiceInstance();
+
+    const result = db.updateNameById(codigo, descripcion,precio);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
 // update
 app.patch('/update', (request, response) => {
     const { id, name } = request.body;
@@ -92,5 +104,17 @@ app.get('/search/:name', (request, response) => {
     .then(data => response.json({data : data}))
     .catch(err => console.log(err));
 })
+
+app.get('/buscar/:codigo', (request, response) => {
+    const { codigo } = request.params;
+    const db = dbArticulo.getDbServiceInstance();
+
+    const result = db.searchByName(codigo);
+    
+    result
+    .then(data => response.json({data : data}))
+    .catch(err => console.log(err));
+})
+
 
 app.listen(process.env.PORT, () => console.log('Servidor corriendo en '+process.env.PORT));

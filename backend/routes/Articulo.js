@@ -39,7 +39,7 @@ class Articulo {
                 })
             });
             return {
-              consecutivo : insertId,
+              codigo : insertId,
                descripcion : descripcion,
                precio:precio,
                fecha_ingreso:fecha_ingreso
@@ -71,14 +71,16 @@ class Articulo {
     }
 
     async updateNameById(id, descripcion,precio) {
+        console.log("id :"  +id +  " Desc : "+ descripcion+ " Precion :" +precio)
         try {
-            id = parseInt(id, 10); 
+         id = parseInt(id, 10); 
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE articulos SET descripcion = ?,precio=? WHERE codigo = ?";
     
-                mysqlConnection.query(query, [descripcion,precio, id] , (err, result) => {
+                mysqlConnection.query(query, [descripcion,precio,id] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
+                    //res.json(rows[0]);
                 })
             });
     
@@ -89,12 +91,12 @@ class Articulo {
         }
     }
 
-    async searchByName(descripcion) {
+    async searchByName(codigo) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM articulos WHERE descripcion = ?;";
+                const query = "SELECT * FROM articulos WHERE codigo = ?;";
 
-                mysqlConnection.query(query, [descripcion], (err, results) => {
+                mysqlConnection.query(query, [codigo], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })
