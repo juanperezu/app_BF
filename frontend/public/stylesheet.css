@@ -16,3 +16,13 @@ table, th, td {
 th, td {
     padding: 5px;
 }
+body {
+    background-image: url("./imagenes/fondo.jpg");
+    background-position: 10%;
+     }
+  .bordo{
+      border-radius: 10%;
+      }
+  body{
+      background-color: darkgrey;
+  }
